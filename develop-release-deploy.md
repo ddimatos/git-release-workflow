@@ -62,7 +62,7 @@ feature branch.
  ```
  $ git checkout dev
  $ git checkout -b feature/21/ansible-zos-raw-module
- $ git branch --set-upstream-to origin/feature/21/ansible-zos-raw-module
+ $ git push -u origin feature/21/ansible-zos-raw-module
  ```
 
 2. Develop code for the new feature, commit and push your changes often. This allows others to see your changes and make 
@@ -119,7 +119,7 @@ $ git merge master
 
 ```
 $ git checkout -b release-v2.0.0
-$ git branch --set-upstream-to origin/release-v2.0.0
+$ git push -u origin release-v2.0.0
 ```
 
 3. After creating release-v2.0.0, developers should only be bugfixing this branch, no new features should be allowed after this point.
@@ -173,7 +173,7 @@ Remember to prefix your bugfix branch with __bugfix__ to indicate this is a bugf
 ```
 $ git checkout release-v2.0.0
 $ git checkout -b bugfix/29/zos-raw-module-parse-failure
-$ git branch --set-upstream-to origin/bugfix/29/zos-raw-module-parse-failure
+$ git push -u origin bugfix/29/zos-raw-module-parse-failure
 ...fix bugs...commit...make more bugs....
 $ git commit -m "Fix parse error by correcting EOF"
 $ git push
@@ -266,7 +266,7 @@ Bugfix the release branch:
 ```
 $ git checkout release-v1.0.1
 $ git checkout -b bugfix/79/zos-dat_set-module-validation-failure
-$ git branch --set-upstream-to origin/bugfix/79/zos-dat_set-module-validation-failure
+$ git push -u origin bugfix/79/zos-dat_set-module-validation-failure
 ...fix bugs...commit...fix more bugs....
 $ git commit -m "Fix parsing by correcting EOF"
 $ git push
@@ -321,7 +321,7 @@ in a current released version, but `dev` has new code in it, also why work off o
 ```
 $ git checkout master
 $ git checkout -b hotfix/99/zos_query_job-module-read-failure
-$ git branch --set-upstream-to origin/hotfix/99/zos_query_job-module-read-failure
+$ git push -u origin hotfix/99/zos_query_job-module-read-failure
 ... fix bug ...commit
 ... add test ...verify ...commit
 $ git add .
