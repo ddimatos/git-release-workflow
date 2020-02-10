@@ -436,7 +436,7 @@ and `dev` are always named exactly that.
 the duration of a feature, fix, etc. 
 
 3. Convention used:
-   <topic>/<issue-tracker-number>/<short-description>
+     __topic__/__issue-tracker-number__/__short-description__
    
 4. Topics to choose from
    
