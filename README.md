@@ -29,76 +29,38 @@
 
 This document describes the community project __Red Hat Ansible Certified Content for IBM Z__ branching and release strategy.  
 
-It provides a brief overview of the release model that we use:
-[release deployment](release-deployment.md) 
+It provides a brief overview of the release model that we use:  
+[release deployment](develop-release-deploy.md) 
 
 This workflow tries to make things as simple as possible while still being flexible enough to work for all contributors, IBM and the community.
 
 ## What is the purpose of this document?
 
-As our community project continues to grow and expand, consistency across all teams, partners and contributors is what will ensure we can focus on developing source code and not managing the contribution. Aligning ourselves with an agreed delivery process ensures we spend our time expanding the collection not managing code delivery.
+As our community project continues to grow, consistency across all teams, partners and contributors is what will enable
+us to add features. A ![synchronous workflow](develop-release-deploy.md) ensures we spend our time expanding the collection 
+not managing code delivery.
 
-Thtis document outlines:
-* How we develop code in a GitFlow process
-* When and how we create a collection release
-* How to handle a collection hot fix
-* Anything else related to our branching strategy
+### What if I think it should be done this way?
 
-### What this document is not
+This document is not final; processes can change, ideas ca inspire change and evolution of a product can change any part
+of this document. 
 
-* __Final...__ 
-    * This document continues to evolve and improve over time with community feedback. 
-    * Pull request are reviewed and encouraged, we never stop evolving. 
-
-* __The only way to work...__
-    * The scope of this document can't possibly cover every sceanrio and every variation on how to do something in Git
-    * There exists more than one way to do the tasks we describe here, we recognize our recommended way is not the only way to perform a given task, its the way we are comfortable doing so and have outlined that process here. 
+* Pull request are reviewed and encouraged, we never stop evolving. 
+* The scope of this document can't possibly cover every permutation on how to do something in Git
+* There exists more than one way to do the tasks we describe here and recognize our process is not the only way to do something
 
 ### Release Deployment
 
-This is the strategy for __Red Hat Ansible Certified Content for IBM Z__ where features are bundled into a release and then released with a [semantic version](https://semver.org/). A feature generally corresponds to a user story and that usually maps to an Ansible Role, module, plugin or playbook. When we have completed serveral features usually at the end of a 12 week cycle, those features will be pushed to our release master branch and versioned. 
+This is the strategy for __Red Hat Ansible Certified Content for IBM Z__ where features are bundled into a release and 
+then released with a [semantic version](https://semver.org/). A feature generally corresponds to a user story and that 
+usually maps to an Ansible Role, module, plugin or playbook. When we have completed serveral features usually at the end 
+of a 12 week cycle, those features will be pushed to our release master branch and versioned. 
 
 In the release, it may not always included features, we could have improvments to the CI/CD, sharable code, updates, hot fixes and documentation changes. 
 
-[Follow this link for more information on release deployment](./release-deployment.md)
-
-## Branch Naming Conventions
-Branch naming is left mostly up to the discretion of the person creating the branch
-with a few exceptions. `master` and `dev` are always named exactly that. 
-
-Branch names should use dashes to separate words of the name and should avoid any
-uppercase letters.
+[Follow this link for more information on release deployment](./develop-release-deploy.md)
 
 
-Other than that, choose names that are descriptive and concise. You don't need a branch
-name that is a novel because most branches should be relatively short-lived (hours to
-days, not weeks).
-
-name/reason/issue-tracker-number/short-description
-* name
-  * username associated to git
-* reason
-  * feature - refers to a user story which usually relates to a module, plugin, role, playbook
-  * content - refers to WIKI page, doc, readme(s)
-  * enhancement
-  * refactor
-  * delete
-  * update
-  * fix
-  * hot-fix
-  * patch
-* issue-tracker-number
-  * git issue number
-  * jira tracker number
-* short-description
-  * short description of what is being committed to the branch
-  
- Some examples:
- * ddimatos/feature/nazare-21/ansible-zos-raw-module
- * ddimatos/content/nazare-55/change-data-set-ansible-doc
- * ddimatos/enhancement/nazare-66/add-copy-module-VSAM-support
- * ddimatos/fix/nazare-47/data-set-write-corruption-vX.Y.Z
- * ddimatos/fix-x.y.z/nazare-47/data-set-write-corruption-x.y.z
 
 ### Git Pull Command
 
@@ -123,8 +85,3 @@ Protected branches:
 - Can't be force pushed
 - Can't be deleted
 - Can't have changes merged into them until required status checks pass
-
-## Anti-Patterns
-
-After reading all of the above, none of the [Anti-Patterns](antipatterns.md) should
-come as a surprise.
