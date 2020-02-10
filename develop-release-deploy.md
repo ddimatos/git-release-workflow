@@ -460,11 +460,11 @@ the duration of a feature, fix, etc.
    around 5 words.
 
 7. Some examples of branches:
-   *feature/21/ansible-zos-raw-module
-   *content/55/change-data-set-ansible-doc
-   *enhancement/66/add-copy-module-vsam-support
-   *bugfix/47/data-set-write-corruption
-   *hotfix/99/connection-failure-aws
+   * feature/21/ansible-zos-raw-module
+   * content/55/change-data-set-ansible-doc
+   * enhancement/66/add-copy-module-vsam-support
+   * bugfix/47/data-set-write-corruption
+   * hotfix/99/connection-failure-aws
  
 # Citations
   * Atlassian, Bitbucket. [Gitflow Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
