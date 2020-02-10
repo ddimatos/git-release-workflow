@@ -408,7 +408,7 @@ These are considred anti-pattern practices that for various reasons put the rele
      * missed dates
      * a cluttered git log
      
-## Squashing commits
+# Squashing commits
 
    Its important that commits are ![squashed](squashing-commits.md) before a pull request is made otherwise it will be 
    rejected. Squashing aids in reducing the entries made into a Git log, making it harder for anyone to manaage, service 
