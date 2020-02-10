@@ -21,6 +21,9 @@
   - [Bugfix old releases](#Bugfix-old-releases)
   - [Production hotfix](#production-hotfix)
   - [Production hotfix release](#Production-hotfix-release)
+- [Squashing commits](#squashing-commits)
+- [Workflow anti-patterns](#workflow-anti-patterns)
+
 
 ## Branching
 
@@ -362,6 +365,65 @@ $ git push
    * comment and close the pull request
    * delete the `hotfix/99/zos_query_job-module-read-failure` branch
 
+# Workflow anti-patterns
+These are considred anti-pattern practices that for various reasons put the release at risk, conflicting merges, cluttered Git logs.
+
+## Don't add more than one feature to a pull request
+   A pull request that has feature code, fixes, bug fixes etc is very long to review and very difficult for the code reviewer. 
+   
+   * This happens often when:
+     * someone either is working on a feature branch and sundenly is tasked with new work
+     * think they can squeeze in a an unrelated fix to this branch because they think no one will notice or its no big deal
+     * don't really understand Git and think they will lose their current work thus they should have checked out a new branch 
+       and started the new task and at anytine checked out the prior banch and picked up where they left off. 
+     * they are lazy
+  * This causes:
+    * a cluttered git log
+    * delays in delivering features as pull requests will reject this
+    * lost time
+    
+## Don't merge code without a code review
+   Ask a team member to review your code for readability, bugs, performance and meeting the products guidelines. Better
+   than one reviewer is 2, see Microsoft's ![research](https://www.microsoft.com/en-us/research/publication/convergent-software-peer-review-practices/)
+   
+   * This happens when:
+     * features are late to deliver
+     * developer thinks they have written and tested every part of the feature
+   * This causes:
+     * bugs, technical debt, rewrites, interface changes and so much more
+     * missed dates
+     
+## Don't write code to any protected branch
+   If by chance a branch such as `master`  or `dev` is not protected in that only certain individuals can perform a pull
+   request into it, don't use this as a reason to do so. Remember, `master` and `dev` are not your sandboxes to write code
+   into, this is why there are feature branches.
+   
+   * This happens when:
+     * developers don't understan Git
+     * someone is pressureing development for a fix and standing over their shoulder
+     * someone believes they are beyond process and not a team player
+   * This casues:
+     * bugs, technical debt, rewrites, interface changes and so much more
+     * missed dates
+     * a cluttered git log
+     
+## Squashing commits
+
+   Its important that commits are ![squashed](squashing-commits.md) before a pull request is made otherwise it will be 
+   rejected. Squashing aids in reducing the entries made into a Git log, making it harder for anyone to manaage, service 
+   and backport/forward port changes. 
+   
+## Don't forget to squash
+   When working out of your feature branch, you should be committing changes often, when a logical point is reached meaning
+   the feature is ready for a code review, squash the commits into one. 
+   
+   * This happens when:
+     * Developers don't understand Git
+     * Develoeprs are rushed to deliver
+     * Developers don't care that a Git log is cluttered
+   * This causes:
+     * Delays... pull requests will reject any code not squashed
+     * Cluttered git log
+   
 # Citations
   * Atlassian, Bitbucket. [Gitflow Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
-
