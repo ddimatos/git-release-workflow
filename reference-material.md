@@ -13,3 +13,4 @@
   * [Flow Comparison](https://medium.com/@patrickporto/4-branching-workflows-for-git-30d0aaee7bf)
   * [Azure Flow](https://docs.microsoft.com/en-us/azure/devops/repos/git/git-branching-guidance?view=azure-devops)
 * [Git Rebase](https://www.atlassian.com/git/tutorials/rewriting-history/git-rebase)
+* [Clone vs Fork](https://thenewstack.io/getting-legit-with-git-and-github-cloning-and-forking/)
