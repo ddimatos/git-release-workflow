@@ -475,22 +475,22 @@ Remeber, a `git pull` also performs a `git fetch` and that in turn pulls down th
 some time , if you run a `git branch` command that will see many origin/* branches in the local repository that no longer 
 exist on remote. 
 
-* To see which branches are in local that aren't on remote:
+* To see which branches are in local that aren't on remote:  
    `git remote prune origin --dry-run`
 
-* To delete/prume the stale remote tracking branches:
+* To delete/prume the stale remote tracking branches:  
   `git remote prune origin` or `git fetch --prune`
 
-* Lets look at pruning the local branches that have been merged:
+* Lets look at pruning the local branches that have been merged:  
   `git branch --merged`
 
-* Delete the local branch that has been merged and no longer needed:
+* Delete the local branch that has been merged and no longer needed:  
   `git branch -d unwanted-branch`
 
-* To view any local branches which have not been merged:
+* To view any local branches which have not been merged:  
   `git branch --no-merged`
 
-* To delete/prune any local branches which have not been merged and are no longer needed (notice the uppercase -D to force):
+* To delete/prune any local branches which have not been merged and are no longer needed (notice the uppercase -D to force):  
   `git branch -D un-merged-branch-to-delete`
   
 # Citations
