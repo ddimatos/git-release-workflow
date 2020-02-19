@@ -357,7 +357,7 @@ the following branch settings:
 <img width="46" alt="image" src="https://user-images.githubusercontent.com/25803172/74109181-12908600-4b36-11ea-9b05-be812d199e48.png">
 </a>
    
-After development has performed the [Production hotfix](#Production hotfix) it is time to review the pull request.
+After development has performed the ![Production hotfix](#Production hotfix) it is time to review the pull request.
 
 1. Review the pull request:
 * merge the pull request
@@ -424,16 +424,10 @@ These are considred anti-pattern practices that for various reasons put the rele
      * bugs, technical debt, rewrites, interface changes and so much more
      * missed dates
      * a cluttered git log
-     
-# Squashing commits
-
-   Its important that commits are ![squashed](squashing-commits.md) before a pull request is made otherwise it will be 
-   rejected. Squashing aids in reducing the entries made into a Git log, making it harder for anyone to manaage, service 
-   and backport/forward port changes. 
    
 ## Don't forget to squash
-   When working out of your feature branch, you should be committing changes often, when a logical point is reached meaning
-   the feature is ready for a code review, squash the commits into one. 
+   When working from your feature branch, you should be committing changes often, when a logical point is reached meaning
+   the feature is ready for a code review, squash the commits into one. Squashing aids in reducing the entries made into a Git log.
    
    * This happens when:
      * Developers don't understand Git
