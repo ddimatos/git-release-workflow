@@ -326,8 +326,8 @@ the following branch settings:
 </a>
 
 A production hotfix is similar to a release bugfix only that you do your work in a branch based on `master`, this is because
-the latest production releas is based on Note that the `master`. Hotfixes are useful in cases where you want to fix a bug 
-in a current released version, but `dev` has new code in it, also why work off of `master`.
+the latest production release is based on the `master` branch. Hotfixes are useful in cases where you want to fix a bug 
+in a current release and because `dev` could have new code in it, these two branches likely have diverged. 
 
 1. Create a hotfix branch based off of `master`, fix the issue and include a test case.
 
@@ -342,12 +342,10 @@ $ git commit -m "Fix job read failure"
 $ git push
 ```
 
-2. Navigate to the project [ibm_zos_core](https://github.com/ansible-collections/ibm_zos_core) and open a pull request with
+2. Navigate to the project and open a pull request with
 the following branch settings:
 * Base: `master`
 * Compare: `hotfix/99/zos_query_job-module-read-failure`
-
-//TODO: hotfix is on master, need to add instructions to cherry-pick it back into `dev` and `release-branches` similar to ![Bugfix old releases](Bugfix-old-releases)
 
 ### Production hotfix release
 <!--Release Manager persona icon-->
@@ -355,18 +353,23 @@ the following branch settings:
 <img width="46" alt="image" src="https://user-images.githubusercontent.com/25803172/74109181-12908600-4b36-11ea-9b05-be812d199e48.png">
 </a>
    
-1. Now that the hotfix code is in `master` you are ready to create the actual release, assuming or latest production release
-is v2.0.0, we will have an incremental increase. Navigate to the project page on Github and draft a new release with the 
-following settings:
+After development has performed the [Production hotfix](#Production hotfix) it is time to review the pull request.
+
+1. Review the pull request:
+* merge the pull request
+* comment and close the pull request
+* __DO NOT delete__ `hotfix/99/zos_query_job-module-read-failure` yet...
+
+2. Now that the hotfix code has been merged into the `master` branch, you are ready to create the release. In this example we are assuming the latest production release is v2.0.0 so will increment the minor version. Hotfix releases are actualy releases thus you sould increment at least the minor version of the release.
+
+Navigate to the project page on Github and draft a new release with the following settings:
 * Tag version: `v2.0.1`
 * Target: `master`
-* Release title: `Release v2.0.1 (hotfix)`
+* Release title: `Release v2.0.1`
 * Description: List the features and capabilities this version will include.
 * __Click__ `Publish release`.
 
-__Note__: Hotfix releases are actualy releases thus you sould increment at least the minor version of the release.
-
-2. Merge the `hotfix/99/zos_query_job-module-read-failure` into `dev`.
+2. Now it's time to merge the `hotfix/99/zos_query_job-module-read-failure` branch into the `dev` branch. This will ensure the hotfix is propagated and correclty merged into the `dev` branch. 
 
 ```
 $ git checkout dev
@@ -374,10 +377,7 @@ $ git merge hotfix/99/zos_query_job-module-read-failure
 $ git push
 ```
 
-5. When the pull request has been reviewed on github:
-   * merge the pull request
-   * comment and close the pull request
-   * delete the `hotfix/99/zos_query_job-module-read-failure` branch
+3. Now delete the `hotfix/99/zos_query_job-module-read-failure` branch. 
 
 # Workflow anti-patterns
 These are considred anti-pattern practices that for various reasons put the release at risk, conflicting merges, cluttered Git logs.
