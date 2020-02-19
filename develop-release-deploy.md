@@ -357,7 +357,7 @@ the following branch settings:
 <img width="46" alt="image" src="https://user-images.githubusercontent.com/25803172/74109181-12908600-4b36-11ea-9b05-be812d199e48.png">
 </a>
    
-After development has performed the ![Production hotfix](#production hotfix) it is time to review the pull request.
+After development has performed the [Production hotfix](#production-hotfix) it is time to review the pull request.
 
 1. Review the pull request:
 * merge the pull request
