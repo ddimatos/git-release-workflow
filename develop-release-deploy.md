@@ -205,13 +205,11 @@ request with the following branch settings:
 <img width="46" alt="image" src="https://user-images.githubusercontent.com/25803172/74109181-12908600-4b36-11ea-9b05-be812d199e48.png">
 </a>
     
-In a release based project, old releases might need some maintenance, bug fixes and back ported feature requests. Old 
-releases often become incompatible with the most recent versions of projects thus we should encourage users to adopt new releases.
-   
-To support a paticular release, we will adopt the support branch model identified by an associated Git release tag. Support 
-branches are long living branches created to support major and incramental versions of the project. Support branches 
-__do not get merged__ back into `master` or `dev`, this __would cause major merge issues__. Instead, commits can be cherry-picked 
-from the support branch back into `dev`. 
+To support a paticular release, we will adopt the support branch model, support branches are created as neeeded for customers who are on older release who can not adopt the lastest release but still need bug fixes, security fixes and ported features. Old releases often become incompatible with the most recent versions of projects thus we should encourage users to adopt new releases.
+
+Support branches are long-lived branches to maintain legacy code without the need to be merged back into master. Support branches 
+__do not get merged__ back into __`master`__ or __`dev`__, this __would cause major merge issues__. Instead, commits are cherry-picked 
+from the support branch back into `dev` through a pull request. 
    
 Support branches can be thought of as the `master` branch for old release. Support branches for major releases should be 
 named as `support-v<major>.x`. Support branches for minor releases should be named as `support-v<major>.<minor>.x`. 
@@ -231,27 +229,41 @@ Here is an example of creating a support branch for v1.0.0 assuming the project 
 
    Note: For subsequent releases (i.e. v1.0.2) the release branch will be branched off the `HEAD` of `support-v1.x`
 
-2. Now that an incremented release branch `release-v1.0.1` has been created a ![developer](https://about.gitlab.com/handbook/marketing/product-marketing/roles-personas/#sasha-software-developer)
-can now follow the instructions on how to ![Bugfix old releases](#bugfix-old-releases).
+2. Now that an incremented release branch `release-v1.0.1` has been created a ![developer](https://about.gitlab.com/handbook/marketing/product-marketing/roles-personas/#sasha-software-developer) can now follow the instructions on how to ![Bugfix old releases](#bugfix-old-releases) who will also create a pull request to merge `release-v1.0.1` into `support-v1.x`.
    
-3. When you create a pull request to merge `release-v1.0.1` into `support-v1.x`, ensure that the associated fix has been cherry-picked 
-into a branch based on `dev` and a pull request is pending. The ![developer](https://about.gitlab.com/handbook/marketing/product-marketing/roles-personas/#sasha-software-developer)
-should have created both a pull request for the `support-v1.x` branch and one for the `dev` branch. 
-   
-3. Follow the standard release process outlined in ![Create and deploy a release](#create-and-deploy-a-release) 
-treating `support-v1.x` as the `master` branch. If you follow the release process, branch `release-v1.0.1` will 
-get __deleted__ and `support-v1.x` will remain in the repository indefinitely to bugfix and release as new minor versions.
+3. After reviewing  and approving the pull request to merge `release-v1.0.1` into `support-v1.x`, ensure that the associated fix will be cherry-picked into the `dev` branch through a pull request.  
 
-4. Mark `support-v1.x` as a ![protected branch](https://help.github.com/en/github/administering-a-repository/configuring-protected-branches)
-in github so that it does not get accidentally deleted.
+```
+git checkout release-v1.0.1
+git checkout -b bugfix/45/cherry-pick-release-v1.0.1-fix
+git push -u origin bugfix/45/cherry-pick-release-v1.0.1-fix
+git cherry-pick -x commit-sha-one
+git push
+```
+  
+4. Navigate to the project and open a pull request with the following branch settings:
+* Base: `dev`
+* Compare: `bugfix/45/cherry-pick-release-v1.0.1-fix`
+
+5. When the pull request has been reviewed on github:
+   * merge pull request
+   * comment and close the pull request
+   * delete the `bugfix/45/cherry-pick-release-v1.0.1-fix` branch
+
+6. Follow the standard release process outlined in ![Create and deploy a release](#create-and-deploy-a-release) 
+treating `support-v1.x` as the `master` branch. If you follow the __Create and deploy a release__ process, branch `release-v1.0.1` will 
+get __deleted__ and `support-v1.x` will remain in the repository indefinitely to bugfix but incrementing the minor vession for each fix.
+
+7. Mark `support-v1.x` as a ![protected branch](https://help.github.com/en/github/administering-a-repository/configuring-protected-branches)
+in Github so that it does not get accidentally deleted.
 
 To summarize, you are either bug fixing or backporting a feature to an older release that a customer could have in production.
-If its a bug, it could be inherint in the `dev` branch, thus propagted to future releases; you will want to make sure you 
+If its a bug, it could be inherent in the `dev` branch, thus propagted to future releases; you will want to make sure you 
 cherry-pick the fix accordingly, see [Bugfix old releases](#bugfix-old-releases) also ensure that bugfixes are compatible 
 with the current state of `dev`.  
    
 __Tip__: Try to maintain as few support branches as possible. These branches are expensive to maintain since need to 
-cherry-pick applicable bugfixes into each support branch seperately.
+cherry-pick applicable bugfixes into __each support branch__ seperately.
 
 ### Bugfix old releases
     
@@ -341,7 +353,7 @@ the following branch settings:
 <!--Release Manager persona icon-->
 <a href="https://about.gitlab.com/handbook/marketing/product-marketing/roles-personas/#rachel-release-manager">
 <img width="46" alt="image" src="https://user-images.githubusercontent.com/25803172/74109181-12908600-4b36-11ea-9b05-be812d199e48.png">
-</a>>
+</a>
    
 1. Now that the hotfix code is in `master` you are ready to create the actual release, assuming or latest production release
 is v2.0.0, we will have an incremental increase. Navigate to the project page on Github and draft a new release with the 
