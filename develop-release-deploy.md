@@ -369,7 +369,7 @@ Navigate to the project page on Github and draft a new release with the followin
 * Description: List the features and capabilities this version will include.
 * __Click__ `Publish release`.
 
-2. Now it's time to merge the `hotfix/99/zos_query_job-module-read-failure` branch into the `dev` branch. This will ensure the hotfix is propagated and correclty merged into the `dev` branch. 
+3. Now it's time to merge the `hotfix/99/zos_query_job-module-read-failure` branch into the `dev` branch. This will ensure the hotfix is propagated and correclty merged into the `dev` branch. 
 
 ```
 $ git checkout dev
@@ -377,7 +377,7 @@ $ git merge hotfix/99/zos_query_job-module-read-failure
 $ git push
 ```
 
-3. Now delete the `hotfix/99/zos_query_job-module-read-failure` branch. 
+4. Now delete the `hotfix/99/zos_query_job-module-read-failure` branch. 
 
 # Workflow anti-patterns
 These are considred anti-pattern practices that for various reasons put the release at risk, conflicting merges, cluttered Git logs.
