@@ -88,7 +88,11 @@ request with the following branch settings:
    * merge pull request
    * comment and close the pull request
    * delete the `feature/21/ansible-zos-raw-module` branch
-   
+
+__Tip__: It is preferred when a pull request is made that it meet the expectations defined. Generally most prefer that a pull request stand alone such the feature can be cherry-picked on a single hash. Waiting till feature is complete before getting a pull request revied can be going against agile processes thus it might be a good idea to frequently "Create draft pull request" rather than a "Pull request" where a draft pull request "Cannot be merged until marked ready for review". 
+
+<img width="300" alt="image" src="https://user-images.githubusercontent.com/25803172/74807791-32464d80-529e-11ea-99e8-ac4213d9dc1b.png">
+
 ### Develop multiple features in parallel
 
 <!--Development personal icon--> 

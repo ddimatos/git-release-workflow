@@ -1,20 +1,18 @@
 
 # Branching Strategy
 
-This document describes the community project __Red Hat Ansible Certified Content for IBM Z__ branching and release strategy.  
-
-It provides a brief overview of the release model that we use:  
+This document describes a Git workflow used with a release strategy.  It provides a brief overview of the release model that we use:  
 [release deployment](develop-release-deploy.md) 
 
 This workflow tries to make things as simple as possible while still being flexible enough to work for all contributors, IBM and the community.
 
 ## What is the purpose of this document?
 
-As our community project continues to grow, consistency across all teams, partners and contributors is what will enable
-us to add features. A ![synchronous workflow](develop-release-deploy.md) ensures we spend our time expanding the collection 
+As a community project continues to grow, consistency across all teams, partners and contributors is what will enable
+contributors to add features. A ![synchronous workflow](develop-release-deploy.md) ensures we spend our time expanding the collection 
 not managing code delivery.
 
-### What if I think it should be done this way?
+### What if I think it should be done another way?
 
 This document is not final; processes can change, ideas ca inspire change and evolution of a product can change any part
 of this document. 
@@ -25,16 +23,11 @@ of this document.
 
 ### Release Deployment
 
-This is the strategy for __Red Hat Ansible Certified Content for IBM Z__ where features are bundled into a release and 
-then released with a [semantic version](https://semver.org/). A feature generally corresponds to a user story and that 
-usually maps to an Ansible Role, module, plugin or playbook. When we have completed serveral features usually at the end 
-of a 12 week cycle, those features will be pushed to our release master branch and versioned. 
+This is the strategy, features are bundled into a release and then released with a [semantic version](https://semver.org/). A feature generally corresponds to a user story and that usually maps to an Ansible Role, module, plugin or playbook. When we have completed serveral features usually at the end of a 12 week cycle, those features will be pushed to our release master branch and versioned. 
 
 In the release, it may not always included features, we could have improvments to the CI/CD, sharable code, updates, hot fixes and documentation changes. 
 
 [Follow this link for more information on release deployment](./develop-release-deploy.md)
-
-
 
 ### Git Pull Command
 
