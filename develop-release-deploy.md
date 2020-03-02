@@ -37,7 +37,7 @@
    | <img width="13" alt="image" src="https://user-images.githubusercontent.com/25803172/74109916-a9604100-4b3c-11ea-962b-cd65ee1c3e5f.png">       | `master`        | ----------  | This is __stable__ code that is [semantic](http://semver.org/) versioned that requires a pull request to merge into `master`. |
    | <img width="13" alt="image" src="https://user-images.githubusercontent.com/25803172/74109939-d1e83b00-4b3c-11ea-9932-cc4b2edc9c58.png">          | `dev`           | `master`    | This is the development code that keeps developers in synch that has undegone a review and pull request that can be __unstable__. |
    | <img width="13" alt="image" src="https://user-images.githubusercontent.com/25803172/74109943-d876b280-4b3c-11ea-8150-fe9dc99083ae.png">         | feature         | `dev`       | This is a __temporary__ branch with feature code that is actively being developed thus __unstable__. |
-   | <img width="13" alt="image" src="https://user-images.githubusercontent.com/25803172/74109946-dca2d000-4b3c-11ea-9fcf-a49411441c9e.png">| `release-vX.Y.Z`| `dev`       | This is a __temporary__ release branch that following the [semantic version](http://semver.org/) that stabelized the release code, allowing for bugfix's to be made without the risk of feature code slipping into the release  |
+   | <img width="13" alt="image" src="https://user-images.githubusercontent.com/25803172/74109946-dca2d000-4b3c-11ea-9fcf-a49411441c9e.png">| `release-vX.Y.Z`| `dev`       | This is a __temporary__ release branch that following the [semantic version](http://semver.org/) that stabilized the release code, allowing for bugfix's to be made without the risk of feature code slipping into the release  |
    | <img width="13" alt="image" src="https://user-images.githubusercontent.com/25803172/74109950-e0ceed80-4b3c-11ea-97fc-6d2099c9b27c.png">          | bugfix          | `release-vX.Y.Z` |  This is a __temporary__  branch with fixes for a __release branch__. The bugfix branch will be merged into the release branch and cherry-picked into the `dev` branch.|
    | <img width="13" alt="image" src="https://user-images.githubusercontent.com/25803172/74109952-e4fb0b00-4b3c-11ea-9960-bc9c4883a188.png">          | hotfix          | `master`    | This is a __temporary__  branch with a production code fix that should be merged into `master` and cherry-picked into `dev` and release branches.|
 
@@ -89,7 +89,7 @@ request with the following branch settings:
    * comment and close the pull request
    * delete the `feature/21/ansible-zos-raw-module` branch
 
-__Tip__: It is preferred when a pull request is made that it meet the expectations defined. Generally most prefer that a pull request stand alone such the feature can be cherry-picked on a single hash. Waiting till feature is complete before getting a pull request revied can be going against agile processes thus it might be a good idea to frequently "Create draft pull request" rather than a "Pull request" where a draft pull request "Cannot be merged until marked ready for review". 
+__Tip__: It is preferred when a pull request is made that it meet the expectations defined. Generally most prefer that a pull request stand alone such the feature can be cherry-picked on a single hash. Waiting till feature is complete before getting a pull request received can be going against agile processes thus it might be a good idea to frequently "Create draft pull request" rather than a "Pull request" where a draft pull request "Cannot be merged until marked ready for review". 
 
 <img width="300" alt="image" src="https://user-images.githubusercontent.com/25803172/74807791-32464d80-529e-11ea-99e8-ac4213d9dc1b.png">
 
@@ -127,8 +127,8 @@ $ git checkout -b release-v2.0.0
 $ git push -u origin release-v2.0.0
 ```
 
-3. After creating release-v2.0.0, developers should only be bugfixing this branch, no new features should be allowed after this point.
-Remember, the release branch is only a temprorary branch and its purpose is to take a snapshot of the `dev` branch such that 
+3. After creating release-v2.0.0, developers should only be bug fixing this branch, no new features should be allowed after this point.
+Remember, the release branch is only a temporary branch and its purpose is to take a snapshot of the `dev` branch such that 
 fetures not releasing can continue to be push into `dev`. 
 
 4. When the release bugfix window has closed. Navigate to the project [ibm_zos_core](https://github.com/ansible-collections/ibm_zos_core) 
@@ -170,7 +170,7 @@ $ git push
 <img width="31" alt="image" src="https://user-images.githubusercontent.com/25803172/74109197-36ec6280-4b36-11ea-9850-a48e2b7118c9.png">
 </a>
 
-1. Release branches should not have any new features added, only bugfixes for currently releasing features.
+1. Release branches should not have any new features added, only bug fixes for currently releasing features.
 
 2. If bugs are found in the release branch, stabilize the release by creating bugfix branches off of the `release-vX.Y.Z` branch.
 Remember to prefix your bugfix branch with __bugfix__ to indicate this is a bugfix and not any other type of fix. 
@@ -209,7 +209,7 @@ request with the following branch settings:
 <img width="46" alt="image" src="https://user-images.githubusercontent.com/25803172/74109181-12908600-4b36-11ea-9b05-be812d199e48.png">
 </a>
     
-To support a paticular release, we will adopt the support branch model, support branches are created as neeeded for customers who are on older release who can not adopt the lastest release but still need bug fixes, security fixes and ported features. Old releases often become incompatible with the most recent versions of projects thus we should encourage users to adopt new releases.
+To support a particular release, we will adopt the support branch model, support branches are created as needed for customers who are on older release who can not adopt the latest release but still need bug fixes, security fixes and ported features. Old releases often become incompatible with the most recent versions of projects thus we should encourage users to adopt new releases.
 
 Support branches are long-lived branches to maintain legacy code without the need to be merged back into master. Support branches 
 __do not get merged__ back into __`master`__ or __`dev`__, this __would cause major merge issues__. Instead, commits are cherry-picked 
@@ -228,7 +228,7 @@ Here is an example of creating a support branch for v1.0.0 assuming the project 
    * Create the long living support branch (don't change the __x__ in `support-v1.x`, it represents subsequent added fixes)   
    ```git checkout -b support-v1.x```
    
-   * Create the release temporary branch incrementing the minor verson   
+   * Create the release temporary branch incrementing the minor version   
    ```git checkout -b release-v1.0.1```
 
    Note: For subsequent releases (i.e. v1.0.2) the release branch will be branched off the `HEAD` of `support-v1.x`
@@ -256,14 +256,14 @@ git push
 
 6. Follow the standard release process outlined in ![Create and deploy a release](#create-and-deploy-a-release) 
 treating `support-v1.x` as the `master` branch. If you follow the __Create and deploy a release__ process, branch `release-v1.0.1` will 
-get __deleted__ and `support-v1.x` will remain in the repository indefinitely to bugfix but incrementing the minor vession for each fix.
+get __deleted__ and `support-v1.x` will remain in the repository indefinitely to bugfix but incrementing the minor version for each fix.
 
 7. Mark `support-v1.x` as a ![protected branch](https://help.github.com/en/github/administering-a-repository/configuring-protected-branches)
 in Github so that it does not get accidentally deleted.
 
-To summarize, you are either bug fixing or backporting a feature to an older release that a customer could have in production.
-If its a bug, it could be inherent in the `dev` branch, thus propagted to future releases; you will want to make sure you 
-cherry-pick the fix accordingly, see [Bugfix old releases](#bugfix-old-releases) also ensure that bugfixes are compatible 
+To summarize, you are either bug fixing or back-porting a feature to an older release that a customer could have in production.
+If its a bug, it could be inherent in the `dev` branch, thus propagated to future releases; you will want to make sure you 
+cherry-pick the fix accordingly, see [Bugfix old releases](#bugfix-old-releases) also ensure that bug fixes are compatible 
 with the current state of `dev`.  
    
 __Tip__: Try to maintain as few support branches as possible. These branches are expensive to maintain since need to 
@@ -303,7 +303,7 @@ the following branch settings:
 an older release branch into `dev`, the code has diverged to far and be a troublesome merge, therefore cherry-picking
 is preferred.
 
-Bugfix the develpment branch:
+Bugfix the development branch:
 ```
 git checkout dev
 git checkout -b bugfix/88/zos-dat_set-module-validation-failure
@@ -330,7 +330,7 @@ the following branch settings:
 </a>
 
 A production hotfix is similar to a release bugfix only that you do your work in a branch based on `master`, this is because
-the latest production release is based on the `master` branch. Hotfixes are useful in cases where you want to fix a bug 
+the latest production release is based on the `master` branch. Hot fixes are useful in cases where you want to fix a bug 
 in a current release and because `dev` could have new code in it, these two branches likely have diverged. 
 
 1. Create a hotfix branch based off of `master`, fix the issue and include a test case.
@@ -364,7 +364,7 @@ After development has performed the [Production hotfix](#production-hotfix) it i
 * comment and close the pull request
 * __DO NOT delete__ `hotfix/99/zos_query_job-module-read-failure` yet...
 
-2. Now that the hotfix code has been merged into the `master` branch, you are ready to create the release. In this example we are assuming the latest production release is v2.0.0 so will increment the minor version. Hotfix releases are actualy releases thus you sould increment at least the minor version of the release.
+2. Now that the hotfix code has been merged into the `master` branch, you are ready to create the release. In this example we are assuming the latest production release is v2.0.0 so will increment the minor version. Hotfix releases are actually releases thus you should increment at least the minor version of the release.
 
 Navigate to the project page on Github and draft a new release with the following settings:
 * Tag version: `v2.0.1`
@@ -373,7 +373,7 @@ Navigate to the project page on Github and draft a new release with the followin
 * Description: List the features and capabilities this version will include.
 * __Click__ `Publish release`.
 
-3. Now it's time to merge the `hotfix/99/zos_query_job-module-read-failure` branch into the `dev` branch. This will ensure the hotfix is propagated and correclty merged into the `dev` branch. 
+3. Now it's time to merge the `hotfix/99/zos_query_job-module-read-failure` branch into the `dev` branch. This will ensure the hotfix is propagated and correctly merged into the `dev` branch. 
 
 ```
 $ git checkout dev
@@ -390,10 +390,10 @@ These are considred anti-pattern practices that for various reasons put the rele
    A pull request that has feature code, fixes, bug fixes etc is very long to review and very difficult for the code reviewer. 
    
    * This happens often when:
-     * someone either is working on a feature branch and sundenly is tasked with new work
+     * someone either is working on a feature branch and suddenly is tasked with new work
      * think they can squeeze in a an unrelated fix to this branch because they think no one will notice or its no big deal
      * don't really understand Git and think they will lose their current work thus they should have checked out a new branch 
-       and started the new task and at anytine checked out the prior banch and picked up where they left off. 
+       and started the new task and at anytime checked out the prior branch and picked up where they left off. 
      * they are lazy
   * This causes:
     * a cluttered git log
@@ -417,10 +417,10 @@ These are considred anti-pattern practices that for various reasons put the rele
    into, this is why there are feature branches.
    
    * This happens when:
-     * developers don't understan Git
-     * someone is pressureing development for a fix and standing over their shoulder
+     * developers don't understand Git
+     * someone is pressuring development for a fix and standing over their shoulder
      * someone believes they are beyond process and not a team player
-   * This casues:
+   * This causes:
      * bugs, technical debt, rewrites, interface changes and so much more
      * missed dates
      * a cluttered git log
@@ -431,7 +431,7 @@ These are considred anti-pattern practices that for various reasons put the rele
    
    * This happens when:
      * Developers don't understand Git
-     * Develoeprs are rushed to deliver
+     * Developers are rushed to deliver
      * Developers don't care that a Git log is cluttered
    * This causes:
      * Delays... pull requests will reject any code not squashed
@@ -441,7 +441,7 @@ These are considred anti-pattern practices that for various reasons put the rele
 Branch naming is left mostly up to the discretion of the person creating the branch with a few exceptions. `master` 
 and `dev` are always named exactly that. 
 
-1. Branch names should use dashes to separate words of the name and should avoid anyuppercase letters.
+1. Branch names should use dashes to separate words of the name and should avoid any uppercase letters.
 
 2. Choose names that are descriptive and concise, you don't need long names because most branches are short lived for 
 the duration of a feature, fix, etc. 
@@ -457,11 +457,11 @@ the duration of a feature, fix, etc.
    | content         | document, readme, wiki page change                      |
    | bugfix          | fix for the development branch                          |
    | hotfix          | fix for the production code that is in master           |
-   | update          | generally refelects a change such as enhancment ordelete. Not depcited in the diagrams but follows the life of a bugfix branch |
+   | update          | generally reflects a change such as enhancement or delete. Not depicted in the diagrams but follows the life of a bugfix branch |
 
 5. Issue tracker number
    This is the number associated to how the work is being tracked, it could be a the JIRA number, git issue number but in
-   some tracking softare its not a simple few digits it can be a long hash, in that case some simple text or the last few
+   some tracking software its not a simple few digits it can be a long hash, in that case some simple text or the last few
    digits of the hash would suffice. 
    
    For example for JIRA-22 we would just use 22, and for .../gitissue/13, we would use just 13. 
@@ -481,7 +481,7 @@ the duration of a feature, fix, etc.
 
 After some time, you end up with no longer used branches in the repository. Here we will cover how to remove them.
 
-Remeber, a `git pull` also performs a `git fetch` and that in turn pulls down the tracking branches from origin. After
+Remember, a `git pull` also performs a `git fetch` and that in turn pulls down the tracking branches from origin. After
 some time , if you run a `git branch` command that will see many origin/* branches in the local repository that no longer 
 exist on remote. 
 
