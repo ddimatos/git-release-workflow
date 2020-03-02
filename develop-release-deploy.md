@@ -25,6 +25,7 @@
 - [Workflow anti-patterns](#workflow-anti-patterns)
 - [Branch Naming Conventions](#branch-naming-conventions)
 - [Prune Branches](#prune-branches)
+- [Early Build](#early-build)
 
 
 ## Branching
@@ -503,5 +504,33 @@ exist on remote.
 * To delete/prune any local branches which have not been merged and are no longer needed (notice the uppercase -D to force):  
   `git branch -D un-merged-branch-to-delete`
   
+# Early Build
+
+The `dev` branch serves as the early build in terms of development and what has undergone code reviews and passed functional tests. 
+What a feature is taking longer than expected and held up in feature branch more maybe multiple features are under review?  
+There are two options:
+* Checkout a feature branch, create a new branch to work in follow your projects build process.
+  ```
+  git checkout feature/01/zos-encode-module
+  git pull
+  git checkout -b temp/feature/01/zos-encode-module
+  ```
+    
+* Checkout all feature branches, create a new branch to work in follow your projects build process.
+* Checkout out all feature branches into a temporary branch and perform a `git merge -s octopus`
+  * This example is specific to an Ansible collection
+      ```
+      git checkout dev
+      git pull
+      git checkout -b temp/all-features
+      git merge -s octopus feature/01/zos-encode-module feature/31/zos-raw-module feature/40/zos-operator feature/73/zos-tso-command-module feature/75/zos-operator-openquestion feature/78/ansible-zos-fetch-module
+      ```
+
+   * Edit galaxy.yaml `version: 0.0.4` field so that you get a archive that reflects a feature branch build.
+      ```
+      vi galaxy.yaml
+      # edit `version: 0.0.4` to read `version: octopush-0.0.1`
+      ansible-galaxy collection build
+      ```
 # Citations
   * Atlassian, Bitbucket. [Gitflow Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
