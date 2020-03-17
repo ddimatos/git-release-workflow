@@ -15,8 +15,13 @@ Today we will cover how we can do this using these tools to do just that.
    - [Clone Repository](#clone-repository)
    - [Configure Sphinx](#configure-sphinx)
    - [Restructured Text](#restructured-text)
-   
-  
+   - [Sphinx Themes](#sphinx-themes)
+   - [Makefile Tips](#makefile-tips)
+   - [Git Page](#git-page)
+- [Pro-tip](#pro-tip)
+- [Update GitHub Page](#update-gitHub-page)
+- [Research](#research)
+
 
 ## Virtual Environment
 
@@ -140,67 +145,96 @@ $ make clean
 ```
 
 ## Sphinx Themes
-At this point you have probably noticed the generated HTML is not very appealing, this is where Shinx themes like
-__Read the Docs__ will be very helpful. After installing the theme, we will configure Shinx to use the theme with a
-few edits to the conf.py.
+At this point you have probably noticed the generated HTML is not very 
+appealing, this is where Sphinx themes like
+![Read the Docs](https://readthedocs.org/) will be very helpful. Sphinx
+can generate html to a them like **sphinx-rtd-theme**, see this this 
+![reference](https://docs.readthedocs.io/en/stable/intro/getting-started-with-sphinx.html)
+for more themes. 
 
+Install the theme:
 ```
 $ pip install sphinx-rtd-theme
-$ vi source/conf.py
+```
 
-# Tell Sphinx about the extension
+Note: If you are using the `ibm_zos_core` repository, you will find all this is
+already configured and for reference. 
+
+Configure Sphinx to use the theme `sphinx_rtd_theme` in `source/conf.py`
+```
+$ vi source/conf.py
+```
+
+Edit `source/conf.py` with these added configurations:
+```
 extensions = [
     "sphinx_rtd_theme",
 ]
 
-# Tell Sphinx about the theme
 html_theme = "sphinx_rtd_theme"
+```
 
+Repeat the HTML generation with the theme and view the updated build.
+```
 $ ansible-doc-extractor source/modules ../plugins/modules/zos_job_output.py
 $ make html
 $ open build/html/index.html
 ```
 
-Now you should see a webdoc that looks quite a bit nicer, Read the Docs provides a great theme and service by offering
-ths to the comunnity.
+Now you should see a documentation that looks nicer. `Read the Docs` provides 
+a great theme and service by offering this to the community. 
 
 ## Sphinx Templates
 
-When the module's Ansible doc is extracted and converted to restructured text by `ansible-doc-extractor`, you can do
-even better than the defaults; you can use jinja templates to instruct `ansible-doc-extractor` what is valid, how
-it should be formated and what should be displayed. 
+When the module's Ansible-doc is extracted and converted to restructured text 
+by `ansible-doc-extractor`, you can go one step further and control how Sphinx
+will author the HTML for the modules. Using a Jinja template you can to 
+logically instruct the generated HTML layout. 
 
-To use a template, you must configure Sphinx:
+Note: If you are using the `ibm_zos_core` repository, you will find all this is
+already configured and for reference. 
+
+To use a template, configure Sphinx:
 ```
 $ mkdir templates
 $ vi source/conf.py
+```
 
-# Add the template path to the configuraton
+# Add the template path to the configuration `source/conf.py`
+```
 templates_path = ['../templates']
 ```
 
-Create a template; for now you can use the one that I have started working on, place it in the `templates` directory.
+In the `docs/templates/` directory, create a Jinja template. You can use the 
+the one in the `ibm_zos_core` repository. Copy the `module.rst.j2` template
+into your `docs/templates/` directory 
 https://github.com/ansible-collections/ibm_zos_core/blob/dev/docs/templates/module.rst.j2.
 
-In the commands below, noticed that I passed in the template as an argument to `ansible-doc-extractor` so that when it
-extracts the restructured text, it will adhere to the jinja template. 
+In the commands below, notice that I passed the template as an argument 
+to `ansible-doc-extractor` so that when it extracts the restructured text, it 
+will adhere to the Jinja template. 
 
 ```
 $ ansible-doc-extractor --template templates/module.rst.j2 source/modules ../plugins/modules/*.py
 $ make html
 $ open build/html/index.html
 ```
+Tip: You can use the ![Jinja template](https://github.com/xlab-si/ansible-doc-extractor/blob/master/src/ansible_doc_extractor/templates/module.rst.j2)
+that comes with ansible-doc-extractor also as a starting point to your own. 
 
 ## Makefile Tips
 
-After a while, you will find it tedious to run all these commands, you can edit the default make file to suite your
-needs. At this point, without scripting, i could not figure out how to instruct `ansible-doc-extractor` to ignore 
-certain files, thus it would try to read `__init_.py` and fail. To avoid this faiulre, I had the make file move it
-to a temporary location and put it back when complete. 
+If you find it tedious to run the various `make` commands, you can customize 
+`make` to automate these steps.
+
+Note: I could not figure out how to instruct `ansible-doc-extractor` to ignore 
+certain files, thus it would try to read `__init_.py` and fail. To avoid this
+failure, I had `make` move it to a temporary location and put it back when
+`make ibm_zos_core` completed.
 
 Below are some edits I made to the makefile to simplify generation.
 
-Add a clean:
+Add clean:
 ```
 clean: 
 	rm -rf build
@@ -211,8 +245,7 @@ clean:
 	echo "Completed HTML text generation, run 'make ibm_zos_core'"
 ```
 
-Add a ibm_zos_core:
-
+Add ibm_zos_core:
 ```
 ibm_zos_core:
 	mkdir build
@@ -223,13 +256,13 @@ ibm_zos_core:
 	mv ../plugins/modules/__init__.py.skip ../plugins/modules/__init__.py
 ```
 
-Add a view:
+Add view:
 ```
 view:
 	open build/html/index.html
 ```
 
-Update the catch-all:
+Update catch-all:
 ```
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
@@ -237,39 +270,58 @@ Update the catch-all:
 ```
 
 # Git Page
-After having run `make html` and susequent commands, you now have some static html in `build/html/*` that you will
-want to host. Each GitHub project has a GitHub Pages feature designed to host static html and this is what we will
-tailor our commands to.
+After you have generated the HTML (`build/html/*`) , you should be thinking
+about hosing. GitHub offers every repository a GitHub page that can host HTML.
 
+The following commands are tailored for GitHub pages.
+
+Create and orphan branch in your repo that has no history associated to it, 
+this repo will be just for docs.
 ```
-# Create and orphan branch in your repo that has no history associated to it, this repo will be just for docs
 $ git checkout --orphan gh-pages  
+```
 
-# Remove all the contents from the branch, you won't need it, we just need a bare repo
+Remove all the contents from the branch, we only need an empty branch:
+```
 $ git rm -rf .
+```
 
-# This file tells GitHub Pages not to run the published files through Jekyll
+Add a `.nojekyll` file, this instructs GitHub Pages not to run the published
+files through Jekyll:
+```
 $ touch .nojekyll
 $ git add .nojekyll
+```
 
-# Init the branch with a commit
+Init the branch with a commit:
+```
 $ git commit -m "Initial gh-pages branch for documentation"
+```
 
-# Map the gh-pages repo to gh-pages/ dir and add it to a worktree
+Map the gh-pages repo to gh-pages/ dir and add it to 
+a ![worktree](https://git-scm.com/docs/git-worktree):
+```
 $ git checkout master
 $ git worktree add gh-pages gh-pages
+```
 
-# Depending on if you have a prior build, you may not need to do this step.
+Generate HTML:
+```
 $ cd docs
 $ make clean
 $ make ibm_zos_core
 $ make html
+```
 
-# Copy all the html files generated with rysnc (a - recursive, v -verbose) to the `gh-pages/` directory. 
-# This should make sense now why we cloned master and ran the make commands to get the html
+Copy the HTML files generated with rysnc (a - recursive, v -verbose) to 
+the `gh-pages/` directory. By now it should be obvious as to why we cloned 
+the `master` branch and ran the make commands to generate the HTML.
+```
 $ rsync -av docs/build/html/ gh-pages/
+```
 
-# Commit it to gh-pages repo
+Commit the generated HTML to gh-pages branch:
+```
 $ cd gh-pages
 $ rm -rf .DS_Store
 $ git add .
@@ -278,48 +330,120 @@ $ git push -u origin gh-pages
 $ cd ..
 ```
 
-TIP: I find it helpful to edit the python code with some print statements to view the html genertion as well as
-doc-extrator (TODO: share these edits here)
+## Pro-tip
 
-TODO: Eplain how to do this with without git worktrees, might be easier for some even though more mechanical.
+I found it helpful to edit the python code parsing the  ReStructuredText with 
+some added print statements so that you can view where an error might be
+occurring during HTML generation as well as in `ansible-doc-extractor`. 
 
-# Git Page Update
 
-Updates (regenerating the html) should be pretty easy the intial documentation releasae. 
+Python File: <path-to-virtual-python>/venv/lib/python3.8/site-packages/ansible_doc_extractor/cli.py
+Line: 29
+Edit: print("rst_ify {}".format(text))
+```
+def rst_ify(text):
+    print("rst_ify {}".format(text))
+    t = _ITALIC.sub(r"*\1*", text)
+    t = _BOLD.sub(r"**\1**", t)
+    t = _MODULE.sub(r":ref:`\1 <\1_module>`", t)
+    t = _LINK.sub(r"`\1 <\2>`_", t)
+    t = _URL.sub(r"\1", t)
+    t = _CONST.sub(r"``\1``", t)
+    t = _RULER.sub(r"------------", t)
 
-``
-# Since the gh-pages is there to manage doc, you can delete prior builds
+    return t
+```
+
+Python File: <path-to-virtual-python>/venv/lib/python3.8/site-packages/jinja2/filters.py
+Line: 654
+Edit: print("Indented lines {}".format(s))
+```
+    if blank:
+        rv = (newline + indention).join(s.splitlines())
+    else:
+        print("Indented lines {}".format(s))
+        lines = s.splitlines()
+        rv = lines.pop(0)
+
+        if lines:
+            rv += newline + newline.join(
+                indention + line if line else line for line in lines
+            )
+```
+
+Python File: <path-to-virtual-python>/venv/lib/python3.8/site-packages/jinja2/runtime.py
+Line: 679
+Edit: print("Arguments {}".format(*arguments))
+```
+    def _invoke(self, arguments, autoescape):
+        """This method is being swapped out by the async implementation."""
+        print("Arguments {}".format(*arguments))
+        rv = self._func(*arguments)
+        if autoescape:
+            rv = Markup(rv)
+        return rv
+```
+
+# Update GitHub Page
+
+Updating the static HTML in GitHub pages is pretty easy after the initial
+setup and configuration. 
+
+Note: I documented but not tested the commands below.
+
+Since the `gh-pages` branch is only in place to manage doc, you don't need to 
+keep prior commits, so delete the content.
+```
 $ rm -rf docs/build
+```
 
-# Build the new HTML content
+Generate updated HTML:
+```
 $ cd docs
 $ make clean
 $ make ibm_zos_core
 $ make html
+```
 
-# Copy all the html files generated with rysnc (a - recursive, v -verbose) to the `gh-pages/` directory. 
-# This should make sense now why we cloned master and ran the make commands to get the html
+Copy the HTML files generated with rysnc (a - recursive, v -verbose) to 
+the `gh-pages/` directory. By now it should be obvious as to why we cloned 
+the `master` branch and ran the make commands to generate the HTML.
+
+```
 $ rsync -av docs/build/html/ gh-pages/
+```
 
-# Commit it to gh-pages repo
+Commit HTML to the `gh-pages` branch:
+```
 $ cd gh-pages
 $ rm -rf .DS_Store
 $ git add .
-$ git commit -m "Initial documentation commit"
+$ git commit -m "Updated documentation version"
 $ git push -u origin gh-pages
 $ cd ..
-``
+```
 
+# Research
 
-# Trials
-I tried to use and MD to RST converter, it did not fair well with any of the links or indentation but I did not put
-much effort into this:
+Things I tried, things that did not work and items lined up for research. 
+
+## Tested
+I tried to use this MD to RST conversion utility and it did not correctly
+generate the RST files correctly, particularly URLs.
 ```
 $ pip install mdToRst
 $ mdToRst README.md >README.rst
 ```
 
-Not sure why i tried this :) :
+Not sure why i installed
+![sphinx-jinja](https://pypi.org/project/sphinx-jinja/), but don't have any 
+comments. 
+
 ```
 pip install sphinx-jinja
 ```
+
+## TODO
+I have heard many good things about ![pandoc](https://pandoc.org/) and seen
+the output from others who coverted RST to MD, with great success. Feel free 
+to try it and share your experience.
