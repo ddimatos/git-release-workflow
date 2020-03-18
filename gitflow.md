@@ -1,14 +1,24 @@
-| [Home](README.md) ▸ **Release Deployment** |
+| [Home](README.md) ▸ **Git Workflow Strategy** |
 |-----|
 
 # Git Workflow Strategy
 
-  This Git work flow is tailored to projects who's features get bundled into a release and versioned.  
+This Git work flow is tailored to projects who's features get bundled into a release and versioned.  
 
-  This work flow is a variation of the [Gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
-  workflow. Readers will be provided various use cases and associated personas that include the commands neccessary to 
-  exercise the use case.   
+This work flow is a variation of the [Gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
+workflow. Readers will be provided various use cases and associated personas that include the commands necessary to 
+exercise the use case.   
   
+**Protected Branches**
+
+Branches `master` and `dev` are protected branches. These protected branches
+should never be directly committed to. They should only be updated through PR merges.
+
+Protected branches:
+- Can't be force pushed
+- Can't be deleted
+- Can't have changes merged into them until required status checks pass
+
 ## Overview
 - [Branching](#branching)
 - [Use Cases](#use-cases)

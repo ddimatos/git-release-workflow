@@ -1,3 +1,5 @@
+| [Home](README.md) ▸ **Creating a Project Page** |
+|-----|
 # Creating a Project Page
 
 How can we leverage the ansible-doc in Ansible modules to populate our 
@@ -148,9 +150,9 @@ $ make clean
 At this point you have probably noticed the generated HTML is not very 
 appealing, this is where Sphinx themes like
 ![Read the Docs](https://readthedocs.org/) will be very helpful. Sphinx
-can generate html to a them like **sphinx-rtd-theme**, see this this 
+can generate HTML from a theme like **sphinx-rtd-theme**, see this 
 ![reference](https://docs.readthedocs.io/en/stable/intro/getting-started-with-sphinx.html)
-for more themes. 
+for more or their ![GitHub](https://github.com/readthedocs/sphinx_rtd_theme)
 
 Install the theme:
 ```
@@ -188,8 +190,9 @@ a great theme and service by offering this to the community.
 
 When the module's Ansible-doc is extracted and converted to restructured text 
 by `ansible-doc-extractor`, you can go one step further and control how Sphinx
-will author the HTML for the modules. Using a Jinja template you can to 
-logically instruct the generated HTML layout. 
+will author the HTML for the modules. Using a
+ ![Jinja](https://jinja.palletsprojects.com/en/master/templates/) template you
+can to logically instruct the generated HTML layout. 
 
 Note: If you are using the `ibm_zos_core` repository, you will find all this is
 already configured and for reference. 
@@ -205,14 +208,16 @@ $ vi source/conf.py
 templates_path = ['../templates']
 ```
 
-In the `docs/templates/` directory, create a Jinja template. You can use the 
-the one in the `ibm_zos_core` repository. Copy the `module.rst.j2` template
-into your `docs/templates/` directory 
+In the `docs/templates/` directory, create a
+![Jinja](https://jinja.palletsprojects.com/en/master/templates/) template. You
+can use the the one in the `ibm_zos_core` repository. Copy the `module.rst.j2`
+template into your `docs/templates/` directory 
 https://github.com/ansible-collections/ibm_zos_core/blob/dev/docs/templates/module.rst.j2.
 
 In the commands below, notice that I passed the template as an argument 
 to `ansible-doc-extractor` so that when it extracts the restructured text, it 
-will adhere to the Jinja template. 
+will adhere to the 
+![Jinja](https://jinja.palletsprojects.com/en/master/templates/) template. 
 
 ```
 $ ansible-doc-extractor --template templates/module.rst.j2 source/modules ../plugins/modules/*.py
@@ -271,7 +276,9 @@ Update catch-all:
 
 # Git Page
 After you have generated the HTML (`build/html/*`) , you should be thinking
-about hosing. GitHub offers every repository a GitHub page that can host HTML.
+about hosing. GitHub offers every repository a
+![GitHub page](https://help.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
+that can host HTML.
 
 The following commands are tailored for GitHub pages.
 
@@ -447,3 +454,17 @@ pip install sphinx-jinja
 I have heard many good things about ![pandoc](https://pandoc.org/) and seen
 the output from others who coverted RST to MD, with great success. Feel free 
 to try it and share your experience.
+
+# Git Pull Command
+
+Git provides a single command to update your local branch with changes from a remote.
+`git pull` is this command. Most of the time it does exactly what you want without
+any problems, but you should know that `git pull` is really `git fetch` followed
+by `git merge`. So when you pull from a remote, you're actually updating the remote
+tracking branch (eg. `origin/mybranch`) and then merging that into your local
+branch `mybranch`.
+
+It's good to know that this happens under the hood. Some people prefer to do the
+`git fetch` and `git merge` operations separately. Most of the time `git pull` will
+do what you want and is an acceptable way to update your local branch with changes
+from remote.

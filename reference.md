@@ -1,6 +1,7 @@
-<img width="760" alt="image" src="https://media.github.ibm.com/user/15905/files/aca3a780-479f-11ea-91ef-9d7b2700d4c9">
+| [Home](README.md) ▸ **Reference** |
+|-----|
 
-# Reference Material
+# Reference
 
 * [Git Guides](https://guides.github.com/)
 * Workflow Models
@@ -14,3 +15,6 @@
   * [Azure Flow](https://docs.microsoft.com/en-us/azure/devops/repos/git/git-branching-guidance?view=azure-devops)
 * [Git Rebase](https://www.atlassian.com/git/tutorials/rewriting-history/git-rebase)
 * [Clone vs Fork](https://thenewstack.io/getting-legit-with-git-and-github-cloning-and-forking/)
+* [Using Git](https://help.github.com/en/github/committing-changes-to-your-project)
+* [Merge vs Rebase](https://www.atlassian.com/git/tutorials/merging-vs-rebasing) also
+   * [Another Merge vs Rebase](https://coderefinery.github.io/git-branch-design/01-rebase/).
