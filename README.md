@@ -2,10 +2,10 @@
 |-----|
 
 # Index
-- [Git Workflow Strategy](#git-workflow-strategy)
-- [Creating a Project Page](#creating-a-project-page)
-- [Git Commands](#git-commands)
-- [Reference](#reference)
+- [Git Workflow Strategy](#gitflow.md)
+- [Creating a Project Page](#gitpage.md)
+- [Git Commands](#gitcmds.md)
+- [Reference](#reference.md)
 
 # Branching Strategy
 
