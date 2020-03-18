@@ -2,7 +2,7 @@
 |-----|
 
 # Index
-- [Git Workflow Strategy](gitflow.md)
+- [Git Workflow](gitflow.md)
 - [Creating a Project Page](gitpage.md)
 - [Git Commands](gitcmds.md)
 - [Reference](reference.md)
@@ -11,7 +11,7 @@
 
 This document describes a Git workflow used with a release strategy.  It 
 provides a brief overview of the release model that I use
-[release deployment](develop-release-deploy.md) 
+[Git Workflow](gitflow.md) 
 
 This workflow tries to make things as simple as possible while still being
 flexible enough to work for all contributors.
@@ -20,7 +20,7 @@ flexible enough to work for all contributors.
 
 As a community project continues to grow, consistency across all teams, 
 partners and contributors is what will enable contributors to add features.
-A ![synchronous workflow](develop-release-deploy.md) ensures we spend our time
+A ![Git Workflow](gitflow.md) ensures we spend our time
 developing and not managing code delivery.
 
 ### What if I think it should be done another way?
@@ -44,6 +44,6 @@ those features will be pushed to our release master branch and versioned.
 A release may not always include only features, it could include improvements
 to the CI/CD, sharable code, updates, hot fixes and documentation changes. 
 
-[Follow this link for more information on release deployment](./develop-release-deploy.md)
+[Follow this link for more information on release deployment](gitflow.md)
 
 

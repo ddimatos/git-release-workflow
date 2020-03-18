@@ -1,7 +1,7 @@
-| [Home](README.md) ▸ **Git Workflow Strategy** |
+| [Home](README.md) ▸ **Git Workflow** |
 |-----|
 
-# Git Workflow Strategy
+# Git Workflow
 
 This Git work flow is tailored to projects who's features get bundled into a release and versioned.  
 
