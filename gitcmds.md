@@ -143,3 +143,25 @@ When submitting a pull request, you must squash your commits before we merge. Sq
     * It will give you the opportunity to change the commit message
     * Save and close the editor again
     * Then you have to force push the final, squashed commit: git push --force-with-lease origin
+
+# Git Pull Command
+
+Git provides a single command to update your local branch with changes from a remote.
+`git pull` is this command. Most of the time it does exactly what you want without
+any problems, but you should know that `git pull` is really `git fetch` followed
+by `git merge`. So when you pull from a remote, you're actually updating the remote
+tracking branch (eg. `origin/mybranch`) and then merging that into your local
+branch `mybranch`.
+
+It's good to know that this happens under the hood. Some people prefer to do the
+`git fetch` and `git merge` operations separately. Most of the time `git pull` will
+do what you want and is an acceptable way to update your local branch with changes
+from remote.
+
+# How to set up Git for the first time
+//TODO:
+//Document this in more detail for now, just point users at setting up their
+//email
+
+git config --global user.name <github_account_user>
+git config --global user.email <github_account_email>

@@ -3,12 +3,11 @@
 
 # Git Workflow
 
-This Git work flow is tailored to projects who's features get bundled into a release and versioned.  
+This Git work flow is tailored to projects who's features get bundled into a release and versioned.
 
 This work flow is a variation of the [Gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
-workflow. Readers will be provided various use cases and associated personas that include the commands necessary to 
-exercise the use case.   
-  
+workflow. Readers will be provided various use cases and associated personas that include the commands necessary to exercise the use case.
+
 **Protected Branches**
 
 Branches `master` and `dev` are protected branches. These protected branches
@@ -42,7 +41,7 @@ Protected branches:
 
    <!-- Branching Flows -->
    <img width="521" alt="image" src="https://user-images.githubusercontent.com/25803172/74110947-871ef100-4b45-11ea-8e2a-daf6340ab819.png">
-   
+
    | Ledger          | Branch          | Base        | Description    |
    |-----------------|-----------------|-------------|----------------|
    | <img width="13" alt="image" src="https://user-images.githubusercontent.com/25803172/74109916-a9604100-4b3c-11ea-962b-cd65ee1c3e5f.png">       | `master`        | ----------  | This is __stable__ code that is [semantic](http://semver.org/) versioned that requires a pull request to merge into `master`. |
@@ -59,17 +58,13 @@ Protected branches:
 <a href="https://about.gitlab.com/handbook/marketing/product-marketing/roles-personas/#sasha-software-developer">
 <img width="31" alt="image" src="https://user-images.githubusercontent.com/25803172/74109197-36ec6280-4b36-11ea-9850-a48e2b7118c9.png">
 </a>
- 	
+
 <!-- Git Develop a new feature workflow image -->
 <img width="551" alt="image" src="https://user-images.githubusercontent.com/25803172/74111973-aae63500-4b4d-11ea-906a-f0cdce8e7857.png">
-   
-A developer wants to start a new feature that will ship in a future release. They should branch off of the `dev` branch 
-because there could be other features also in the `dev` branch shipping in the next release and you should be in synch
-with the rest of the development team.
 
-1. Create a feature branch "feature/21/ansible-zos-raw-module" based off of `dev` and set the default remote branch to the 
-current local branch. When setting the default remote branch, then a `git pull` will pull in commits from the remote 
-feature branch.
+A developer wants to start a new feature that will ship in a future release. They should branch off of the `dev` branch because there could be other features also in the `dev` branch shipping in the next release and you should be in synch with the rest of the development team.
+
+1. Create a feature branch "feature/21/ansible-zos-raw-module" based off of `dev` and set the default remote branch to the current local branch. When setting the default remote branch, then a `git pull` will pull in commits from the remote feature branch.
 
  ```
  $ git checkout dev
@@ -77,8 +72,7 @@ feature branch.
  $ git push -u origin feature/21/ansible-zos-raw-module
  ```
 
-2. Develop code for the new feature, commit and push your changes often. This allows others to see your changes and make 
-suggestions as well as securing your code should your local storage fail.
+2. Develop code for the new feature, commit and push your changes often. This allows others to see your changes and make suggestions as well as securing your code should your local storage fail.
 
 ```
 $ ... make changes
@@ -90,8 +84,7 @@ $ git commit -m "Fixed hard code counter with a user defined environment variabl
 $ git push
 ```
 
-3. Navigate to the project [ibm_zos_core](https://github.com/ansible-collections/ibm_zos_core) and open a pull 
-request with the following branch settings:
+3. Navigate to the project [ibm_zos_core](https://github.com/ansible-collections/ibm_zos_core) and open a pull request with the following branch settings:
 * Base: `dev`
 * Compare: `feature/21/ansible-zos-raw-module`
 
@@ -100,19 +93,18 @@ request with the following branch settings:
    * comment and close the pull request
    * delete the `feature/21/ansible-zos-raw-module` branch
 
-__Tip__: It is preferred when a pull request is made that it meet the expectations defined. Generally most prefer that a pull request stand alone such the feature can be cherry-picked on a single hash. Waiting till feature is complete before getting a pull request received can be going against agile processes thus it might be a good idea to frequently "Create draft pull request" rather than a "Pull request" where a draft pull request "Cannot be merged until marked ready for review". 
+__Tip__: It is preferred when a pull request is made that it meet the expectations defined. Generally most prefer that a pull request stand alone such the feature can be cherry-picked on a single hash. Waiting till feature is complete before getting a pull request received can be going against agile processes thus it might be a good idea to frequently "Create draft pull request" rather than a "Pull request" where a draft pull request "Cannot be merged until marked ready for review".
 
 <img width="300" alt="image" src="https://user-images.githubusercontent.com/25803172/74807791-32464d80-529e-11ea-99e8-ac4213d9dc1b.png">
 
 ### Develop multiple features in parallel
 
-<!--Development personal icon--> 
+<!--Development personal icon-->
 <a href="https://about.gitlab.com/handbook/marketing/product-marketing/roles-personas/#sasha-software-developer">
 <img width="31" alt="image" src="https://user-images.githubusercontent.com/25803172/74109197-36ec6280-4b36-11ea-9850-a48e2b7118c9.png">
 </a>
 
-There is nothing unique about developing multiple features in parallel. Each developer simply needs to follow the same 
-process outlined in [Develop a new feature](#develop-a-new-feature) for each feature they are working on.
+There is nothing unique about developing multiple features in parallel. Each developer simply needs to follow the same process outlined in [Develop a new feature](#develop-a-new-feature) for each feature they are working on.
 
 ### Create and deploy a release
 
@@ -123,8 +115,7 @@ process outlined in [Develop a new feature](#develop-a-new-feature) for each fea
 
 <img width="557" alt="image" src="https://user-images.githubusercontent.com/25803172/74111865-9e151180-4b4c-11ea-8057-8696015625b1.png">
 
-1. Merge `master` into `dev` to ensure the new release will contain the latest production code. This reduces the 
-chance of a merge conflict during the release.
+1. Merge `master` into `dev` to ensure the new release will contain the latest production code. This reduces the chance of a merge conflict during the release.
 
 ```
 $ git checkout dev
@@ -139,11 +130,9 @@ $ git push -u origin release-v2.0.0
 ```
 
 3. After creating release-v2.0.0, developers should only be bug fixing this branch, no new features should be allowed after this point.
-Remember, the release branch is only a temporary branch and its purpose is to take a snapshot of the `dev` branch such that 
-fetures not releasing can continue to be push into `dev`. 
+Remember, the release branch is only a temporary branch and its purpose is to take a snapshot of the `dev` branch such that features not releasing can continue to be push into `dev`.
 
-4. When the release bugfix window has closed. Navigate to the project [ibm_zos_core](https://github.com/ansible-collections/ibm_zos_core) 
-and open a Pull Request with the following branch settings:
+4. When the release bugfix window has closed. Navigate to the project [ibm_zos_core](https://github.com/ansible-collections/ibm_zos_core) and open a Pull Request with the following branch settings:
 * Base: `master`
 * Compare: `release-v2.0.0`
 
@@ -154,16 +143,15 @@ and open a Pull Request with the following branch settings:
 
    __Important Note__:  Always use pull requests when merging into `master`.
 
-6. Now you are ready to create the actual release since you have merged the release branch `release-vX.Y.Z` into `master`. 
+6. Now you are ready to create the actual release since you have merged the release branch `release-vX.Y.Z` into `master`.
 Navigate to the project page on Github and draft a __new release__ with the following settings:
 * Tag version: `v2.0.0`
 * Target: `master`
 * Release title: `release-v2.0.0`
-* Description: List the features and capabilities this version will include. 
-* __Click__ `Publish release`  
+* Description: List the features and capabilities this version will include.
+* __Click__ `Publish release`
 
-7. Merge `release-v2.0.0` into the `dev` branch because by now, its possible the `dev` branch that may have 
-diverged and is lacking bugfix's added to `release-v2.0.0`.
+7. Merge `release-v2.0.0` into the `dev` branch because by now, its possible the `dev` branch that may have diverged and is lacking bugfix's added to `release-v2.0.0`.
 
 ```
 $ git checkout dev
@@ -176,7 +164,7 @@ $ git push
 
 ### Bugfix the release branch
 
-<!--Development personal icon--> 
+<!--Development personal icon-->
 <a href="https://about.gitlab.com/handbook/marketing/product-marketing/roles-personas/#sasha-software-developer">
 <img width="31" alt="image" src="https://user-images.githubusercontent.com/25803172/74109197-36ec6280-4b36-11ea-9850-a48e2b7118c9.png">
 </a>
@@ -184,7 +172,7 @@ $ git push
 1. Release branches should not have any new features added, only bug fixes for currently releasing features.
 
 2. If bugs are found in the release branch, stabilize the release by creating bugfix branches off of the `release-vX.Y.Z` branch.
-Remember to prefix your bugfix branch with __bugfix__ to indicate this is a bugfix and not any other type of fix. 
+Remember to prefix your bugfix branch with __bugfix__ to indicate this is a bugfix and not any other type of fix.
 
 ```
 $ git checkout release-v2.0.0
@@ -195,8 +183,7 @@ $ git commit -m "Fix parse error by correcting EOF"
 $ git push
 ```
 
-3. Navigate to the project [ibm_zos_core](https://github.com/ansible-collections/ibm_zos_core) and open a pull 
-request with the following branch settings:
+3. Navigate to the project [ibm_zos_core](https://github.com/ansible-collections/ibm_zos_core) and open a pull request with the following branch settings:
 * Base: `release-v2.0.0`
 * Compare: `bugfix/29/zos-raw-module-parse-failure`
 
@@ -212,7 +199,7 @@ request with the following branch settings:
 <img width="46" alt="image" src="https://user-images.githubusercontent.com/25803172/74109181-12908600-4b36-11ea-9b05-be812d199e48.png">
 </a>
 
-//TODO - will document this at a later date either as a pull request reversal or new branch + pull request reversal. 
+//TODO - will document this at a later date either as a pull request reversal or new branch + pull request reversal.
 
 ### Supporting old releases
 <!--Release manager persona icon-->

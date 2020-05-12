@@ -2,14 +2,29 @@
 |-----|
 # Creating a Project Page
 
-How can we leverage the ansible-doc in Ansible modules to populate our 
-documentation sites? How could we avoiding having to build a site that would 
-have all people come to expect such as search, twisties, navigation and code blocks.
+Documentation today is critical the developer, it goes beyond the manual (man)
+page we all grew up using. With todays demands and limited time, rich
+documentation with links, samples and detailed explanation's is what it takes to
+attract users.
 
-Today we will cover how we can do this using these tools to do just that. 
+In this document we will use tools that can extract documentation from our
+Ansible modules into ReStructuredText, generate HTML using Sphinx and format our
+site with a Sphinx plugin.
+
+The tools we will use in this tutorial are:
 * Sphinx
 * ansible-doc-extractor
 * sphinx-rtd-theme
+
+NOTE:
+This document is written in a progressive manner, where it walks you through the
+entire process, step by step. In doing so, you will learn how each command,
+tool and configuration build on each other so you can take this lesson and
+advance your design.
+
+If you ONLY want to generate documentation and skip the lesson, you can jump to
+the [Sphinx Themes](#sphinx-themes) section but ensure you have installed and
+configured the utilities.
 
 ## Overview
 - [Creating a Project Page](#creating-a-project-page)
@@ -26,17 +41,21 @@ Today we will cover how we can do this using these tools to do just that.
 
 
 ## Virtual Environment
-
 We will use a python virtual environment to install our tools and work from
 that includes cloning the repositories. Virtual environments keep your existing
-system dependencies from being impacted and lends well to migrating this 
+system dependencies from being impacted and lends well to migrating this
 process to CI/CD.
 
-Using `tmp/html/` to stage all this:
+NOTE:
+It has been noted that Python versions less that 3.8.1 result in errors
+extracting and generating docs. I have not tested lesser versions, I wrote this
+document based on Python 3.8.2.
+
+I will be using the directory `~/webdocs` to stage this.
 
 ```
-$ mkdir -p /tmp/html
-$ cd /tmp/html
+$ mkdir -p ~/webdocs
+$ cd ~/webdocs
 $ python3 -m venv venv
 $ . venv/bin/activate
 $ pip install Sphinx
@@ -44,10 +63,9 @@ $ pip install ansible-doc-extractor
 ```
 
 ## Clone Repository
-
 I will use the `IBM z/OS core collection` repository for this example. Because
 this project already has created a GitHub page, there already exists a `docs/`
-directory with the content (*.rst files), so we can clean it up. 
+directory with the content (*.rst files), so we can clean it up.
 
 Clone repository and remove `docs/` directory:
 
@@ -59,10 +77,9 @@ $ cd ..
 ```
 
 ## Configure Sphinx
-
 ![Sphinx](https://www.sphinx-doc.org/en/master/usage/quickstart.html) makes it
-easy to create documentation, it supports plugins, cross-referencing and can 
-output content in HTML, LaTeX, ePub, manual pages plain text and more. Here, 
+easy to create documentation, it supports plugins, cross-referencing and can
+output content in HTML, LaTeX, ePub, manual pages plain text and more. Here,
 we will only be discuss how to use Sphinx to generate HTML.
 
 Initialize the Sphinx directory:
@@ -71,7 +88,7 @@ $ cd docs
 $ sphinx-quickstart
 ```
 
-You should be prompted to answer some questions, be sure to answer `Y` to a 
+You should be prompted to answer some questions, be sure to answer `Y` to a
 question about keeping the source and build separate, this will help us later
 when we want to extract the generated HTML in `docs/source/build`.
 
@@ -85,30 +102,27 @@ Answer these interactive questions:
 ```
 
 ## Restructured Text
-
 Now that we everything is up and ready to go, we will need some restructured
 text (*.rst) for Shpinx to read and generate HTML output. In the last step,
 the `sphinx-quickstart` created the `source` directory and populated it with
-some minimum requirements such as a `Makefile` and `source/` directory. 
+some minimum requirements such as a `Makefile` and `source/` directory.
 
-//TODO: Provide a more detail explanation on how to structure RST and share
-//some sample snippets. 
-
-Shpinx created the `source/` directory, add a `modules` directory; this 
+Shpinx created the `source/` directory, add a `modules` directory; this
 directory will be used for the generated reStructuredText when
 `ansible-doc-extractor` reads the Ansible-doc and extracts into *.rst. This a
 vary powerful feature, as it reduces the need to maintain docs in two places.
-I highly recommend you invest into documenting the options, examples and 
-return values, this will pay off in the long run.
+I highly recommend you invest into documenting the options, examples and return
+values, this will pay off in the long run.
 
-Make the directory to store the generated `rst` files. 
+Make the directory to store the generated `rst` files.
 ```
 mkdir -p docs/source/modules
 ```
+
 Create an `index.rst`, this will serve as the master document for Sphinx; it
 will create a index.html from this but more importantly it allows you to link
-all your other `*.rst` files together and instruct Sphinx how to interpret 
-them.  
+all your other `*.rst` files together and instruct Sphinx how to interpret
+them.
 ```
 vi docs/source/index.rst
 ```
@@ -116,7 +130,7 @@ vi docs/source/index.rst
 Add this to the `index.rst`, it basically is telling Sphinx that it will be
 able to find a number of `*.rst` files in the relative folder `modules/` and
 after it renders them into HTML it should put under a heading called Contents
-on the left side navigation. 
+on the left side navigation.
 ```
 .. toctree::
    :maxdepth: 1
@@ -126,11 +140,11 @@ on the left side navigation.
    modules/*
 ```
 
-Lets select one module `../plugins/modules/zos_job_output.py` to extract as 
+Lets select one module `../plugins/modules/zos_job_output.py` to extract as
 restructured into `source/modules` , such that ou will end up with
 `source/modules/zos_job_output.rst`.
- 
-Then `make html` to have sphinx generate html based on the `index.rst` and 
+
+Then `make html` to have sphinx generate html based on the `index.rst` and
 module `source/modules/zos_job_output.rst` file, lastly view it with a browser.
 
 ```
@@ -141,16 +155,16 @@ $ open build/html/index.html
 ```
 
 After you are done reviewing the content in the browser, clean up the generated
-files. 
+files.
 ```
 $ make clean
 ```
 
 ## Sphinx Themes
-At this point you have probably noticed the generated HTML is not very 
+At this point you have probably noticed the generated HTML is not very
 appealing, this is where Sphinx themes like
 ![Read the Docs](https://readthedocs.org/) will be very helpful. Sphinx
-can generate HTML from a theme like **sphinx-rtd-theme**, see this 
+can generate HTML from a theme like **sphinx-rtd-theme**, see this
 ![reference](https://docs.readthedocs.io/en/stable/intro/getting-started-with-sphinx.html)
 for more or their ![GitHub](https://github.com/readthedocs/sphinx_rtd_theme)
 
@@ -160,7 +174,7 @@ $ pip install sphinx-rtd-theme
 ```
 
 Note: If you are using the `ibm_zos_core` repository, you will find all this is
-already configured and for reference. 
+already configured and for reference.
 
 Configure Sphinx to use the theme `sphinx_rtd_theme` in `source/conf.py`
 ```
@@ -183,19 +197,18 @@ $ make html
 $ open build/html/index.html
 ```
 
-Now you should see a documentation that looks nicer. `Read the Docs` provides 
-a great theme and service by offering this to the community. 
+Now you should see a documentation that looks nicer. `Read the Docs` provides
+a great theme and service by offering this to the community.
 
 ## Sphinx Templates
-
-When the module's Ansible-doc is extracted and converted to restructured text 
+When the module's Ansible-doc is extracted and converted to restructured text
 by `ansible-doc-extractor`, you can go one step further and control how Sphinx
 will author the HTML for the modules. Using a
  ![Jinja](https://jinja.palletsprojects.com/en/master/templates/) template you
-can to logically instruct the generated HTML layout. 
+can to logically instruct the generated HTML layout.
 
 Note: If you are using the `ibm_zos_core` repository, you will find all this is
-already configured and for reference. 
+already configured and for reference.
 
 To use a template, configure Sphinx:
 ```
@@ -211,13 +224,13 @@ templates_path = ['../templates']
 In the `docs/templates/` directory, create a
 ![Jinja](https://jinja.palletsprojects.com/en/master/templates/) template. You
 can use the the one in the `ibm_zos_core` repository. Copy the `module.rst.j2`
-template into your `docs/templates/` directory 
+template into your `docs/templates/` directory
 https://github.com/ansible-collections/ibm_zos_core/blob/dev/docs/templates/module.rst.j2.
 
-In the commands below, notice that I passed the template as an argument 
-to `ansible-doc-extractor` so that when it extracts the restructured text, it 
-will adhere to the 
-![Jinja](https://jinja.palletsprojects.com/en/master/templates/) template. 
+In the commands below, notice that I passed the template as an argument
+to `ansible-doc-extractor` so that when it extracts the restructured text, it
+will adhere to the
+![Jinja](https://jinja.palletsprojects.com/en/master/templates/) template.
 
 ```
 $ ansible-doc-extractor --template templates/module.rst.j2 source/modules ../plugins/modules/*.py
@@ -225,14 +238,13 @@ $ make html
 $ open build/html/index.html
 ```
 Tip: You can use the ![Jinja template](https://github.com/xlab-si/ansible-doc-extractor/blob/master/src/ansible_doc_extractor/templates/module.rst.j2)
-that comes with ansible-doc-extractor also as a starting point to your own. 
+that comes with ansible-doc-extractor also as a starting point to your own.
 
 ## Makefile Tips
-
-If you find it tedious to run the various `make` commands, you can customize 
+If you find it tedious to run the various `make` commands, you can customize
 `make` to automate these steps.
 
-Note: I could not figure out how to instruct `ansible-doc-extractor` to ignore 
+Note: I could not figure out how to instruct `ansible-doc-extractor` to ignore
 certain files, thus it would try to read `__init_.py` and fail. To avoid this
 failure, I had `make` move it to a temporary location and put it back when
 `make ibm_zos_core` completed.
@@ -241,7 +253,7 @@ Below are some edits I made to the makefile to simplify generation.
 
 Add clean:
 ```
-clean: 
+clean:
 	rm -rf build
 	echo "Deleted directory build/"
 
@@ -282,10 +294,10 @@ that can host HTML.
 
 The following commands are tailored for GitHub pages.
 
-Create and orphan branch in your repo that has no history associated to it, 
+Create and orphan branch in your repo that has no history associated to it,
 this repo will be just for docs.
 ```
-$ git checkout --orphan gh-pages  
+$ git checkout --orphan gh-pages
 ```
 
 Remove all the contents from the branch, we only need an empty branch:
@@ -305,8 +317,8 @@ Init the branch with a commit:
 $ git commit -m "Initial gh-pages branch for documentation"
 ```
 
-Map the gh-pages repo to gh-pages/ dir and add it to 
-a ![worktree](https://git-scm.com/docs/git-worktree):
+Map the gh-pages repo to gh-pages/ dir and add it to a
+![worktree](https://git-scm.com/docs/git-worktree):
 ```
 $ git checkout master
 $ git worktree add gh-pages gh-pages
@@ -320,8 +332,8 @@ $ make ibm_zos_core
 $ make html
 ```
 
-Copy the HTML files generated with rysnc (a - recursive, v -verbose) to 
-the `gh-pages/` directory. By now it should be obvious as to why we cloned 
+Copy the HTML files generated with rysnc (a - recursive, v -verbose) to
+the `gh-pages/` directory. By now it should be obvious as to why we cloned
 the `master` branch and ran the make commands to generate the HTML.
 ```
 $ rsync -av docs/build/html/ gh-pages/
@@ -339,9 +351,9 @@ $ cd ..
 
 ## Pro-tip
 
-I found it helpful to edit the python code parsing the  ReStructuredText with 
+I found it helpful to edit the python code parsing the ReStructuredText with
 some added print statements so that you can view where an error might be
-occurring during HTML generation as well as in `ansible-doc-extractor`. 
+occurring during HTML generation as well as in `ansible-doc-extractor`.
 
 
 Python File: <path-to-virtual-python>/venv/lib/python3.8/site-packages/ansible_doc_extractor/cli.py
@@ -392,47 +404,67 @@ Edit: print("Arguments {}".format(*arguments))
 ```
 
 # Update GitHub Page
-
 Updating the static HTML in GitHub pages is pretty easy after the initial
-setup and configuration. 
+setup and configuration.
 
-Note: I documented but not tested the commands below.
-
-Since the `gh-pages` branch is only in place to manage doc, you don't need to 
-keep prior commits, so delete the content.
+Checkout the branch with your updated RST doc.
 ```
-$ rm -rf docs/build
+git checkout master
 ```
 
-Generate updated HTML:
+Generate the HTML, recall we don't check-in HTML given we can always generate it
+but we do want to store RST with each `master` branch tag for reference and use
+it to generate HTML.
 ```
 $ cd docs
-$ make clean
-$ make ibm_zos_core
 $ make html
 ```
 
-Copy the HTML files generated with rysnc (a - recursive, v -verbose) to 
-the `gh-pages/` directory. By now it should be obvious as to why we cloned 
-the `master` branch and ran the make commands to generate the HTML.
+Git ![worktrees](https://git-scm.com/docs/git-worktree) allow you to share
+changes between branches, this avoids the need to push and clone and greatly
+simplifies the updating of the new generated HTML from your `master` branch to
+your `gh-pages` branch.
+
+```
+$git worktree add gh-pages gh-pages
+```
+
+Copy the generated HTML from the `master` branch to `gh-pages` branch using
+rysnc (a - recursive, v -verbose). By now it start to make sense why we are
+using Git worktrees and generating HTML from the `master` branch RST.
 
 ```
 $ rsync -av docs/build/html/ gh-pages/
 ```
 
-Commit HTML to the `gh-pages` branch:
+With Git work trees you don't checkout the branch, you `cd` to the branch, this
+is handled by Git using hard links in their implementation, without this you
+would not have been able to `rsync` locally between two branches.
+
+Checkout `gh-pages` branch, add, commit and push your updated HTML.
+
 ```
 $ cd gh-pages
+
+# At this point you may want to validate your HTML and `open index.html` and
+# browse the changes ensure they copied correctly.
+
 $ rm -rf .DS_Store
 $ git add .
+$ git status
 $ git commit -m "Updated documentation version"
-$ git push -u origin gh-pages
-$ cd ..
+$ git push
 ```
 
-# Research
+Given you probably don't update HTML to often, you may not have another use for
+Git worktrees.
 
-Things I tried, things that did not work and items lined up for research. 
+```
+$ cd master
+$ git worktree remove gh-pages
+```
+# Research
+Things I tried, things that did not work and items lined up for research.
 
 ## Tested
 I tried to use this MD to RST conversion utility and it did not correctly
@@ -443,8 +475,8 @@ $ mdToRst README.md >README.rst
 ```
 
 Not sure why i installed
-![sphinx-jinja](https://pypi.org/project/sphinx-jinja/), but don't have any 
-comments. 
+![sphinx-jinja](https://pypi.org/project/sphinx-jinja/), but don't have any
+comments.
 
 ```
 pip install sphinx-jinja
@@ -452,19 +484,5 @@ pip install sphinx-jinja
 
 ## TODO
 I have heard many good things about ![pandoc](https://pandoc.org/) and seen
-the output from others who coverted RST to MD, with great success. Feel free 
+the output from others who converted RST to MD, with great success. Feel free
 to try it and share your experience.
-
-# Git Pull Command
-
-Git provides a single command to update your local branch with changes from a remote.
-`git pull` is this command. Most of the time it does exactly what you want without
-any problems, but you should know that `git pull` is really `git fetch` followed
-by `git merge`. So when you pull from a remote, you're actually updating the remote
-tracking branch (eg. `origin/mybranch`) and then merging that into your local
-branch `mybranch`.
-
-It's good to know that this happens under the hood. Some people prefer to do the
-`git fetch` and `git merge` operations separately. Most of the time `git pull` will
-do what you want and is an acceptable way to update your local branch with changes
-from remote.
