@@ -216,7 +216,8 @@ $ mkdir templates
 $ vi source/conf.py
 ```
 
-# Add the template path to the configuration `source/conf.py`
+Add the template path to the configuration `source/conf.py`
+
 ```
 templates_path = ['../templates']
 ```
@@ -286,7 +287,7 @@ Update catch-all:
 	echo "Completed HTML text generation, run 'make view'"
 ```
 
-# Git Page
+## Git Page
 After you have generated the HTML (`build/html/*`) , you should be thinking
 about hosing. GitHub offers every repository a
 ![GitHub page](https://help.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
@@ -349,7 +350,7 @@ $ git push -u origin gh-pages
 $ cd ..
 ```
 
-## Pro-tip
+# Pro-tip
 
 I found it helpful to edit the python code parsing the ReStructuredText with
 some added print statements so that you can view where an error might be
@@ -464,25 +465,22 @@ $ cd master
 $ git worktree remove gh-pages
 ```
 # Research
-Things I tried, things that did not work and items lined up for research.
+Things I tried, things that did not work, and items for research.
 
-## Tested
-I tried to use this MD to RST conversion utility and it did not correctly
-generate the RST files correctly, particularly URLs.
+I tried to use this convert MD to RST with a conversion utility and it did not
+correctly generate the RST files, particularly URLs.
 ```
 $ pip install mdToRst
 $ mdToRst README.md >README.rst
 ```
 
-Not sure why i installed
+Not sure why I installed
 ![sphinx-jinja](https://pypi.org/project/sphinx-jinja/), but don't have any
 comments.
-
 ```
 pip install sphinx-jinja
 ```
 
-## TODO
 I have heard many good things about ![pandoc](https://pandoc.org/) and seen
 the output from others who converted RST to MD, with great success. Feel free
 to try it and share your experience.
