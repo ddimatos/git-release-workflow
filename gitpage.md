@@ -38,6 +38,7 @@ configured the utilities.
 - [Pro-tip](#pro-tip)
 - [Update GitHub Page](#update-gitHub-page)
 - [Research](#research)
+- [Sphinx-versions](#sphinx-versions)
 
 
 ## Virtual Environment
@@ -484,3 +485,174 @@ pip install sphinx-jinja
 I have heard many good things about ![pandoc](https://pandoc.org/) and seen
 the output from others who converted RST to MD, with great success. Feel free
 to try it and share your experience.
+
+# Sphinx-versions
+
+Its not uncommon that you encounter the need to host more than one version of
+documentation on your self-hosted site (gh-pages). For example, you may have
+released `v1.0.0` and `v1.1.0-beta.1`, so how do you host two versions of
+documentation into one site? Allow users to select between versions? Display
+a banner when users are looking at an older version of doc? Luckily there
+is a great Sphinx extension called
+![sphinx-versions](https://github.com/Smile-SA/sphinx-versions) and
+![documentation](https://sphinx-versions.readthedocs.io/en/latest/index.html#).
+
+In my testing, I had run into errors using the latest
+![sphinx-versions 1.1.3](https://pypi.org/project/sphinx-versions/1.1.3/) that
+after spending hours could not resolve and decided to try out other versions as
+that seemed to be what others were having to do. I settled on
+![spinx-versions 1.0.0](https://pypi.org/project/sphinx-versions/1.0.0/) for now
+and in time will try to solve the errors I encountered in newer versions.
+
+For reference my error:
+```
+writing output... [  5%] community_guides
+Theme error:
+An error happened in rendering the page community_guides.
+Reason: TypeError('expected str, bytes or os.PathLike object, not NoneType')
+Process Process-2:
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/ddimatos/git/python-venv-ansible-zos/venv/lib/python3.8/site-packages/sphinxcontrib/versioning/sphinx_.py", line 213, in _build
+    raise SphinxError
+sphinx.errors.SphinxError
+=> sphinx-build failed for branch/tag: master
+```
+## Install
+I wanted to try out `pipenv` so my commands will include its usage but i will
+also share the `pip` commands.
+
+Use `pip` to install `pipenv` and update your PIP if needed:
+```
+ $ pip3 install -U pip
+ $ pip install --user -U pipenv
+ ```
+
+Install `sphinx-versions` with `pipenv`:
+```
+pipenv install sphinx-versions
+```
+
+Or, install `sphinx-versions` with `pip`:
+```
+pip install sphinx-versions==1.0.0
+```
+
+## Generating documentation
+Building off the prior Sphinx tutorial where we created HTML from
+RestructuredText, I will assume you have content for more than one release.
+The `sphinx-versioning` command will call `sphinx` such that it not only
+generates HTML, it also creates the selectable versions of doc. Its
+best you start off by running `sphinx-versioning` from your repository root.
+Running the below command will generate doc for all your branches and Git Tags
+which usually  not desired behavior.
+
+```
+sphinx-versioning -l docs/source/conf.py build  docs/source/ docs/build/html
+```
+
+You now view what `sphinx-versioning` has generated with command:
+```
+open docs/_build/html/index.html
+```
+
+## Configure
+At this point you probably are noticing you have documentation generated for
+all your Git tags and branches which is usually not desirable behavior. You can
+control what `sphinx-versioning` branches, tags will be versioned as well as
+the features you would like added such as a banner that warns users they are
+viewing an older version of doc by reviewing the `sphinx-versioning`
+![configuration reference](https://sphinx-versions.readthedocs.io/en/latest/settings.html).
+
+I have configured `sphinx-versioning` to create documentation only for Git tags
+because we only tag releases in the `master` branch and other other branches
+could possibly have older documentation and depending on when they branch off of
+the `dev` branch, thus we don't want doc for those. I have also configured that
+our documentation display links in **semantic** ordering, display a banner that
+a user is on an older version by setting that option also to
+our **semantic** version.
+
+Below are snippets of the configuration and some added documentation and
+explanations for my choices. This is the same configuration file we used to
+configure Sphinx and added to it, and you can see it
+![here](https://github.com/ansible-collections/ibm_zos_core/blob/dev/docs/source/conf.py)
+
+```
+# Choosing to not generate documentation on any branch and rely solely on
+# Github tags. Branches are whitelisted with option 'scv_whitelist_branches'.
+# In other words, filter out any branches that don't match the pattern.
+scv_whitelist_branches = (' ',)
+
+# Override root-ref to be the tag with the highest version number. If no tags
+# have docs then this option is ignored and --root-ref is used. Since we
+# whitelist the master branch, we need to set a root_ref.
+# See also 'scv_root_ref
+scv_greatest_tag = True
+
+# White list which Git tags documentation will be generated and linked into the
+# version selection box. This is currently a manual selection, until more
+# versions are released, there are no regular expressions used.
+scv_whitelist_tags = ('v1.0.0', 'v1.1.0-beta1')
+
+# Sort versions by one or more values. Valid values are semver, alpha, and time.
+# Semantic is referred to as 'semver', this would ensure our latest VRM is
+# the first in the list of documentation links.
+scv_sort = ('semver',)
+
+# Show a warning banner. Enables the Banner Message feature. Further info:
+# https://sphinx-versions.readthedocs.io/en/latest/banner.html#banner
+scv_show_banner = True
+
+# Override banner-main-ref to be the tag with the highest version number. If no
+# tags have docs then this option is ignored and --banner-main-ref is used.
+# The greatest tag is desirable behavior for this site.
+scv_banner_greatest_tag = True
+
+```
+
+Now that you have configured `sphinx-versioning` to your repository desired
+options, if you repeat the command from earlier
+`sphinx-versioning -l docs/source/conf.py build  docs/source/ docs/build/html`
+you should see documentation generated and linked per your configuration.
+
+## Automating
+
+In the prior Sphinx tutorial I covered how to use a Make file to automate some
+of the repeated steps; I have done the same for `sphinx-versioning`. You can
+view the Makefile
+![here](https://github.com/ansible-collections/ibm_zos_core/blob/dev/docs/Makefile).
+
+This Makefile is configured for our repositories specific needs such as
+generating doc for non-python languages but there are snippets you can use
+in your own Makefile.
+
+When you run `sphinx-versioning` from a Makefile its not likely running from
+your repository root so you need to provide absolute paths, as I was not able
+to have relative links work. To to this i needed to know the where the
+Makefile was running with this addition to the Makefile:
+
+```
+ROOT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+```
+
+Now I could use `ROOT_DIR` to build the `sphinx-versioning` command.
+
+```
+html-all:
+	@sphinx-versioning -l "$(ROOT_DIR)"/source/conf.py build  "$(ROOT_DIR)"/source/ "$(ROOT_DIR)"/build/html
+	@echo "Completed HTML generation for git repository branches and/or tags, run 'make view-html'"
+```
+
+You no longer need to run `make html` to generate doc, you can run
+`make html-all` to generate doc and version it. `sphinx-versioning` will handle
+calling and passing arguments to `sphinx` to generate doc.
+
+After this you can view the html once again with:
+```
+open build/html/index.html
+```
+
+Thats all we need to do to support our own hosted documentation with versioning.
