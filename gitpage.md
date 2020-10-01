@@ -558,6 +558,12 @@ You now view what `sphinx-versioning` has generated with command:
 open docs/_build/html/index.html
 ```
 
+An example of how it looks when all your branches and tags are versioned:
+
+<img width="544" alt="image" src="https://user-images.githubusercontent.com/25803172/82095423-d5e3a600-96b3-11ea-94aa-6a749f8bc77d.png">
+
+<img width="593" alt="image" src="https://user-images.githubusercontent.com/25803172/82094690-691bdc00-96b2-11ea-8e3d-e6c435d2e836.png">
+
 ## Configure
 At this point you probably are noticing you have documentation generated for
 all your Git tags and branches which is usually not desirable behavior. You can
@@ -653,5 +659,8 @@ After this you can view the html once again with:
 ```
 open build/html/index.html
 ```
+
+If you have chosen to version only Git tags, that should look like:
+<img width="599" alt="image" src="https://user-images.githubusercontent.com/25803172/82095477-ed229380-96b3-11ea-9ebb-8e60495bb531.png">
 
 Thats all we need to do to support our own hosted documentation with versioning.
