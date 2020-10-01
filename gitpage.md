@@ -71,10 +71,9 @@ directory with the content (*.rst files), so we can clean it up.
 Clone repository and remove `docs/` directory:
 
 ```
-$ git@github.com:ansible-collections/ibm_zos_core.git
+$ git clone git@github.com:ansible-collections/ibm_zos_core.git
 $ cd ibm_zos_core
 $ rm -rf docs/*
-$ cd ..
 ```
 
 ## Configure Sphinx
